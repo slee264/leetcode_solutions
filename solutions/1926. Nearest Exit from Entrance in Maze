@@ -1,0 +1,44 @@
+/**
+https://leetcode.com/problems/nearest-exit-from-entrance-in-maze/description/
+**/
+class Solution:
+    def nearestExit(self, maze: List[List[str]], entrance: List[int]) -> int:
+        rows, cols = len(maze), len(maze[0])
+
+        dirs = ((1, 0), (-1, 0), (0, 1), (0, -1))
+
+        start_row, start_col = entrance
+        maze[start_row][start_col] = "+"
+
+        queue = deque()
+        queue.append([start_row, start_col, 0])
+
+        while queue:
+            curr_row, curr_col, curr_dist = queue.popleft()
+
+            for d in dirs:
+                next_row = curr_row + d[0]
+                next_col = curr_col + d[1]
+
+                # if (next_row, next_col) is valid AND is an empty cell
+                if 0 <= next_row <= rows - 1 and 0 <= next_col <= cols-1 \
+                    and maze[next_row][next_col] == ".":
+
+                    # if (next_row, next_col) is at a border
+                    # Then we have reached an exit, so return the distance + 1 
+                    # (we need to add 1 since we are not in the next cell yet)
+                    if next_row == 0 or next_row == rows - 1 or next_col == 0 or next_col == cols - 1:
+                        return curr_dist + 1
+                    
+                    # if (next_row, next_col) is not at a border
+                    # then mark it visited add it to the queue so we can visit its neighbors at its turn
+                    maze[next_row][next_col] = "+"
+                    queue.append([next_row, next_col, curr_dist + 1])
+
+        return -1
+
+
+                
+
+
+
