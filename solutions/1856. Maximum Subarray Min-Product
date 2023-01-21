@@ -1,0 +1,41 @@
+/**
+https://leetcode.com/problems/maximum-subarray-min-product/description/
+**/
+
+class Solution:
+    def maxSumMinProduct(self, nums: List[int]) -> int:
+        size = len(nums)
+        leftbound, rightbound, mod = [None] * size, [None] * size, pow(10,9) + 7
+        st = []
+
+        for i in range(0, size):
+            while st and nums[st[-1]] >= nums[i]:
+                st.pop()
+            if len(st) > 0:
+                leftbound[i] = st[-1] + 1
+            else:
+                leftbound[i] = 0
+            st.append(i)
+
+        st = []
+        for i in range(size - 1, -1, -1):
+            while st and nums[st[-1]] >= nums[i]:
+                st.pop()
+            if len(st) > 0:
+                rightbound[i] = st[-1] - 1
+            else:
+                rightbound[i] = size - 1
+            st.append(i)
+
+        presum = [0] * (size + 1)
+
+        for i in range(0, size):
+            presum[i + 1] = presum[i] + nums[i]
+
+        def get_presum(left: int, right: int) -> int:
+                return presum[right + 1] - presum[left]
+        max_product = 0 
+        for i in range(0, size):
+            pre_sum = get_presum(leftbound[i], rightbound[i])
+            max_product = max(max_product, nums[i] * pre_sum)
+        return max_product % mod
