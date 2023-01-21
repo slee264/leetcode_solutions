@@ -1,0 +1,21 @@
+/**
+https://leetcode.com/problems/sliding-window-maximum/description/
+**/
+
+class Solution(object):
+    def maxSlidingWindow(self, nums, k):
+        res = []
+        dq = []
+        for i, num in (enumerate(nums)):
+            while dq and nums[dq[-1]] <= num:
+                dq.pop()
+            dq.append(i)
+
+            #ditch the oldest indice if it's not in the range since it won't matter
+            if i - k == dq[0]:
+                dq.pop(0)
+
+            #once we iterate far enough to cover the first k indices, start depositing answers
+            if i + 1 >= k:
+                res.append(nums[dq[0]])
+        return res
