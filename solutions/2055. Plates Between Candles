@@ -1,0 +1,38 @@
+/**
+https://leetcode.com/problems/plates-between-candles/description/
+**/
+
+class Solution:
+    def platesBetweenCandles(self, s: str, queries: List[List[int]]) -> List[int]:
+        ans = [-1] * len(queries)
+        next_candle, prev_candle, prefix_sum = [-1] * len(s), [-1] * len(s), [0] * len(s)
+        count = 0
+        candle_index = None
+        for i in range(0, len(s)):
+            if s[i] == "|":
+                candle_index = i
+                prefix_sum[i] = count
+            else:
+                count += 1
+            if candle_index: prev_candle[i] = candle_index
+
+        candle_index = None
+        for i in range(len(s) - 1, -1, -1):
+            if s[i] == "|":
+                candle_index = i
+            if candle_index: next_candle[i] = candle_index
+
+        for i, query in enumerate(queries):
+            if query[0] >= query[1]: 
+                ans[i] = 0
+                continue
+            start = next_candle[query[0]]
+            end = prev_candle[query[1]]
+            if start < 0: start = 0
+            if end < 0: end = query[1]
+            # print(next_candle)
+            # print(prev_candle)
+            ans[i] = prefix_sum[end] - prefix_sum[start]
+            if ans[i] < 0: ans[i] = 0
+
+        return ans
