@@ -1,0 +1,21 @@
+/**
+https://leetcode.com/problems/optimal-division/description/
+**/
+
+class Solution:
+    def optimalDivision(self, nums: List[int]) -> str:
+        res = ""
+        res += str(nums[0])
+        if(len(nums) == 1): return res
+        if(len(nums) == 2): 
+            res += "/" + str(nums[1])
+            return res
+        res += "/("
+        for i in range(1, len(nums)):
+            res += str(nums[i])
+            res += "/"
+
+        res = res[0 : len(res) - 1]
+        res += ")"
+
+        return res
