@@ -1,0 +1,21 @@
+/**
+https://leetcode.com/problems/number-of-different-integers-in-a-string/description/
+**/
+
+class Solution:
+    def numDifferentIntegers(self, word: str) -> int:
+        string = ""
+        for c in word:
+            if c.isnumeric():
+                string += c
+            else: 
+                string += " "
+        string = string.split()
+        dic = {}
+        count = 0
+        for s in string:
+            s = int(s)
+            if s not in dic:
+                dic[s] = 1
+                count += 1
+        return count
