@@ -1,0 +1,15 @@
+/**
+https://leetcode.com/problems/find-subarrays-with-equal-sum/description/
+**/
+
+class Solution:
+    def findSubarrays(self, nums: List[int]) -> bool:
+        sub_sum = [None] * (len(nums) - 1)
+        for i in range(0, len(nums)-1):
+            sub_sum[i] = nums[i] + nums[i+1]
+
+        sub_sum.sort()
+        for i in range(0, len(sub_sum) - 1):
+            if sub_sum[i] == sub_sum[i+1]:
+                return True
+        return False
