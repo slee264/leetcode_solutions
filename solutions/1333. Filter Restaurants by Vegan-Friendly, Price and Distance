@@ -1,0 +1,24 @@
+/**
+https://leetcode.com/problems/filter-restaurants-by-vegan-friendly-price-and-distance/description/
+**/
+
+class Solution:
+    def filterRestaurants(self, restaurants: List[List[int]], veganFriendly: int, maxPrice: int, maxDistance: int) -> List[int]:
+        ID_INDEX = 0
+        RATINGS_INDEX = 1
+        VEGAN_FRIENDLY_INDEX = 2
+        PRICE_INDEX = 3
+        DISTANCE_INDEX = 4
+        result = []
+        for rest in restaurants:
+            if rest[VEGAN_FRIENDLY_INDEX] - veganFriendly >= 0:
+                if rest[PRICE_INDEX] <= maxPrice:
+                    if rest[DISTANCE_INDEX] <= maxDistance:
+                        result.append(rest)
+
+        result.sort(key=lambda t:[t[1], t[0]], reverse=True)
+
+        real_result = []
+        for rest in result:
+            real_result.append(rest[ID_INDEX])
+        return real_result
