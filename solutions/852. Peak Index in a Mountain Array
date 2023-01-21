@@ -1,0 +1,25 @@
+/**
+https://leetcode.com/problems/peak-index-in-a-mountain-array/description/
+**/
+
+class Solution:
+    def peakIndexInMountainArray(self, arr: List[int]) -> int:
+        def compute_midpoint(left: int, right: int) -> int:
+            return math.floor((left + right) / 2)
+
+        left = 0
+        right = len(arr) - 1
+        mid_index = compute_midpoint(left, right)
+        while not (arr[mid_index - 1] < arr[mid_index] > arr[mid_index + 1]):
+
+            #peak is on the left of the middle
+            if arr[mid_index - 1] > arr[mid_index]:
+                right = mid_index
+                mid_index = compute_midpoint(left, right)
+            #peak is on the right of the middle
+            else:
+                left = mid_index
+                mid_index = compute_midpoint(left, right)
+
+        return mid_index
+        
