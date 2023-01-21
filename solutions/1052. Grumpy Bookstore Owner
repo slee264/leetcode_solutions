@@ -1,0 +1,40 @@
+/**
+https://leetcode.com/problems/grumpy-bookstore-owner/description/
+**/
+
+class Solution:
+    def maxSatisfied(self, customers: List[int], grumpy: List[int], minutes: int) -> int:
+        n = len(customers)
+        max_customs_index = None
+        max_diff = -math.inf
+        max_customers = 0
+
+        num_customs = 0
+        num_max_customs = 0
+        for i in range(0, n):
+            #num customs when owners are grumpy on schedule
+            num_customs += customers[i] * (grumpy[i] ^ 1)
+
+            #num customs when owners are happy
+            num_max_customs += customers[i]
+            if i - minutes>= 0:
+                num_customs -= customers[i-minutes] * (grumpy[i-minutes] ^ 1)
+                num_max_customs -= customers[i-minutes]
+            if i - minutes + 1 >= 0:
+                diff = num_max_customs - num_customs
+                if diff > max_diff:
+                    max_diff = diff
+                    max_customs_index = i - minutes + 1
+                    max_customers = num_max_customs
+
+        ans = 0
+        i = 0
+        while i < n:
+            if i == max_customs_index:
+                ans += max_customers
+                i += minutes
+            else:
+                ans += customers[i] * (grumpy[i]^1)
+                i += 1
+
+        return ans
