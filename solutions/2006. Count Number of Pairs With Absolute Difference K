@@ -1,0 +1,29 @@
+#
+# https://leetcode.com/problems/count-number-of-pairs-with-absolute-difference-k/submissions/884296349/
+#
+
+class Solution:
+    def countKDifference(self, nums: List[int], k: int) -> int:
+        sorted_nums = sorted(enumerate(nums), key=lambda item: item[1])
+        # print(sorted_nums)
+        count = 0
+        for i, num in sorted_nums:
+            for j, num2 in sorted_nums:
+                if i < j:
+                    if abs(num-num2) == k:
+                        count += 1
+                        print(str(num) + " " + str(num2))
+
+        return count
+
+# 1 7
+# 3 9
+# 7 1
+# 7 1
+
+# 1 7
+# 3 9
+# 7 1
+# 7 1
+# 8 2
+# 8 2
