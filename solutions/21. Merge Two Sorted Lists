@@ -1,0 +1,68 @@
+/**
+https://leetcode.com/problems/merge-two-sorted-lists/description/
+**/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if (!list1){
+            return list2;
+        }
+
+        if (!list2){
+            return list1;
+        }
+        ListNode* new_node_p = NULL;
+        ListNode* new_node_head = NULL;
+
+        ListNode* node_p1 = list1;
+        ListNode* node_p2 = list2;
+
+        while (node_p1 || node_p2){
+            if(node_p1 && node_p2){
+                if (node_p1->val > node_p2-> val){
+                    if(!new_node_head){
+                        new_node_head = node_p2;
+                        new_node_p = new_node_head;
+                    }
+                    else{
+                        new_node_p -> next = node_p2;
+                        new_node_p = new_node_p -> next;
+                    }
+                    node_p2 = node_p2 -> next;
+                }else{
+                    if(!new_node_head){
+                        new_node_head = node_p1;
+                        new_node_p = new_node_head;
+                    }else{
+                        new_node_p -> next = node_p1;
+                        new_node_p = new_node_p -> next;
+                    }
+                    node_p1 = node_p1->next;
+                }
+            }else{
+                while(node_p1){
+                    new_node_p -> next = node_p1;
+                    new_node_p = new_node_p -> next;
+                    node_p1 = node_p1->next;
+                }
+                while(node_p2){
+                    new_node_p -> next = node_p2;
+                    new_node_p = new_node_p -> next;
+                    node_p2 = node_p2->next;
+                }
+            }
+        }
+        return new_node_head;
+    }
+};
