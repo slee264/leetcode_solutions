@@ -1,0 +1,40 @@
+#
+# https://leetcode.com/problems/reorganize-string/description/
+#
+
+class Solution:
+    def reorganizeString(self, s: str) -> str:
+        dic = {}
+        ans = [""] * len(s)
+        most_c = s[0]
+        most_c_num = 1
+        for c in s:
+            if c not in dic:
+                dic[c] = 1
+            else:
+                dic[c] += 1
+                if dic[c] > most_c_num:
+                    most_c = c
+                    most_c_num = dic[c]
+
+        
+        if most_c_num > (len(s) + 1) / 2: 
+            return ""
+
+        i = 0
+        while most_c_num > 0:
+            ans[i] = most_c
+            i += 2
+            most_c_num -= 1
+
+        dic.pop(most_c)
+        keys = dic.keys()
+        for key in keys:
+            while dic[key] > 0:
+                if i >= len(ans):
+                    i = 1
+                ans[i] = key
+                dic[key] -= 1
+                i += 2
+        # print("".join(ans))
+        return "".join(ans)
