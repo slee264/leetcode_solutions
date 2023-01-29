@@ -1,0 +1,31 @@
+# https://leetcode.com/problems/construct-string-with-repeat-limit/submissions/887404851/
+
+class Solution:
+    def repeatLimitedString(self, s: str, repeatLimit: int) -> str:
+        dic = {}
+        # sorted_s = ''.join(sorted(s, reverse=True))
+        for c in s:
+            if -ord(c) not in dic:
+                dic[-ord(c)] = 1
+            else:
+                dic[-ord(c)] += 1
+        items = list(dic.items())
+        heapify(items)
+        ans = []
+        while items:
+            c, count = heappop(items)
+
+            if count <= repeatLimit:
+                ans += [chr(-c) for i in range(count)]
+            
+            if count > repeatLimit:
+                ans += [chr(-c) for i in range(repeatLimit)]
+                if items: next_c, next_count = heappop(items)
+                else: break
+
+                ans.append(chr(-next_c))
+                if next_count - 1 > 0: 
+                    heappush(items, (next_c, next_count - 1))
+                heappush(items, (c, count - repeatLimit))
+
+        return ''.join(ans)
