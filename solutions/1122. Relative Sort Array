@@ -1,0 +1,26 @@
+# https://leetcode.com/problems/relative-sort-array/submissions/886800744/
+
+class Solution:
+    def relativeSortArray(self, arr1: List[int], arr2: List[int]) -> List[int]:
+        dic = {}
+        arr1.sort()
+        for e in arr1:
+            if e not in dic:
+                dic[e] = 1
+            else:
+                dic[e] += 1
+        
+        ans = []
+        for e in arr2:
+            if e in dic:
+                while dic[e] > 0:
+                    ans.append(e)
+                    dic[e] -= 1
+                dic.pop(e)
+
+        if dic:
+            for item in dic.items():
+                for i in range(item[1]):
+                    ans.append(item[0])
+
+        return ans
