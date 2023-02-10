@@ -1,0 +1,30 @@
+# https://leetcode.com/problems/moving-stones-until-consecutive/
+
+class Solution:
+    def numMovesStones(self, a: int, b: int, c: int) -> List[int]:
+        positions = []
+        positions.append(a)
+        positions.append(b)
+        positions.append(c)
+
+        positions.sort()
+
+        left = positions[0]
+        middle = positions[1]
+        right = positions[2]
+
+
+        left_distance = middle - left
+        right_distance = right - middle
+
+        min_moves = 2
+        if left_distance <= 2 or right_distance <= 2:
+            if right-left == 2:
+                min_moves = 0
+            else:
+                min_moves = 1
+        
+        max_moves = left_distance + right_distance - 2
+        
+
+        return [min_moves, max_moves]
